@@ -7,10 +7,15 @@ manager
 프로세스가 종료되면 다시 살리는 역활을 함 
 
 사용방법: 
+
 ./manager
 
 환경변수:
+
   TEST_CFG=/Users/ryoo/process.cfg 
+  
   (설정파일 위치)
+  
   LOG_PATH=/Users/ryoo/log/
+  
   (로그파일 위치)
