@@ -14,7 +14,7 @@ manager
 
   TEST_CFG=/Users/ryoo/process.cfg 
   
-  (설정파일 위치)
+  (설정파일 위치, 설정파일 형식 참조)
   
   LOG_PATH=/Users/ryoo/log/
   
