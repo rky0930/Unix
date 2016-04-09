@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F8A053651CB898060007C651 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A053641CB898060007C651 /* main.cpp */; };
+		F8A0536D1CB899860007C651 /* HubMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A0536B1CB899860007C651 /* HubMain.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8A053721CB89BFC0007C651 /* comm_log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A0536E1CB89BFC0007C651 /* comm_log.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8A053731CB89BFC0007C651 /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A053701CB89BFC0007C651 /* map.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +26,12 @@
 
 /* Begin PBXFileReference section */
 		F8A053611CB898060007C651 /* Hub */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Hub; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8A053641CB898060007C651 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F8A0536B1CB899860007C651 /* HubMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HubMain.cpp; sourceTree = "<group>"; };
+		F8A0536C1CB899860007C651 /* HubMain.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HubMain.hpp; sourceTree = "<group>"; };
+		F8A0536E1CB89BFC0007C651 /* comm_log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = comm_log.cpp; sourceTree = "<group>"; };
+		F8A0536F1CB89BFC0007C651 /* comm_log.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = comm_log.hpp; sourceTree = "<group>"; };
+		F8A053701CB89BFC0007C651 /* map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = map.cpp; sourceTree = "<group>"; };
+		F8A053711CB89BFC0007C651 /* map.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = map.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +64,12 @@
 		F8A053631CB898060007C651 /* Hub */ = {
 			isa = PBXGroup;
 			children = (
-				F8A053641CB898060007C651 /* main.cpp */,
+				F8A0536E1CB89BFC0007C651 /* comm_log.cpp */,
+				F8A0536F1CB89BFC0007C651 /* comm_log.hpp */,
+				F8A053701CB89BFC0007C651 /* map.cpp */,
+				F8A053711CB89BFC0007C651 /* map.hpp */,
+				F8A0536B1CB899860007C651 /* HubMain.cpp */,
+				F8A0536C1CB899860007C651 /* HubMain.hpp */,
 			);
 			path = Hub;
 			sourceTree = "<group>";
@@ -118,7 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8A053651CB898060007C651 /* main.cpp in Sources */,
+				F8A053731CB89BFC0007C651 /* map.cpp in Sources */,
+				F8A053721CB89BFC0007C651 /* comm_log.cpp in Sources */,
+				F8A0536D1CB899860007C651 /* HubMain.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,6 +249,7 @@
 				F8A0536A1CB898060007C651 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
