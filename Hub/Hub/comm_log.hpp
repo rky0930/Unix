@@ -10,7 +10,7 @@
 #define comm_log_hpp
 
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <fstream>
 
 

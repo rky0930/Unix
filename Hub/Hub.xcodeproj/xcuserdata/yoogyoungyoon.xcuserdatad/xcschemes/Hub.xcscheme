@@ -61,6 +61,18 @@
             ReferencedContainer = "container:Hub.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "LOG_PATH"
+            value = "/Users/ryoo/log/"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "PROCESS_CFG"
+            value = "/Users/ryoo/process.cfg"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>

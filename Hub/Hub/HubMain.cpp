@@ -8,9 +8,14 @@
 #include <iostream>
 #include "HubMain.hpp"
 
-void HubMain::init() {
+
+mymaps map;
+HubMain g_app;
+comm_log c_log;
+
+int HubMain::initialize() {
     //log file location
-    c_log.comm_log_init("manager", c_log.getCurTime());
+    c_log.comm_log_init(g_app.getProcessName(), c_log.getCurTime());
     
     //process check interval
     p_check_interval = 10;
@@ -20,7 +25,7 @@ void HubMain::init() {
     string cfg_location;
     ifstream fd;
     
-    env_file = getenv("TEST_CFG");
+    env_file = getenv("PROCESS_CFG");
     if (env_file == NULL) {
         cerr<<"Not found env variable. "<<endl;
     }else{
@@ -53,21 +58,34 @@ void HubMain::init() {
     fd.close();
 
     
-    
+    return 0;
 }
 
-void HubMain::process() {
+int HubMain::process() {
     
     std::cout << "Hello, World!\n";
-
+    return 0;
     
 }
+
+int HubMain::stop() {
+    c_log.write_log(10,"Hub Main Stop");
+    return 0;
+}
+
 
 
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
+
+    if(g_app.initialize()) {
+        cerr<<"Initialize Error!"<<endl;
+        exit(EXIT_SUCCESS);
+    };
+    g_app.process();
+    g_app.stop();
     
-    std::cout << "Hello, World!\n";
+
+    
     return 0;
 }

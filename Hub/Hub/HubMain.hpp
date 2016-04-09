@@ -21,13 +21,18 @@
 
 class HubMain {
 public:
-    void init();
-    void process();
+    int initialize();
+    int process();
+    string getProcessName(){
+        return process_name;
+    };
+    int stop();
     
 protected:
     string log_file_name;
     time_t last_p_check_time;
     int p_check_interval;
+    string process_name = "hub";
 };
 
 extern mymaps map;
