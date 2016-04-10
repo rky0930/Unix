@@ -63,7 +63,11 @@ int HubMain::initialize() {
 
 int HubMain::process() {
     
-    std::cout << "Hello, World!\n";
+    std::cout << "HubMain::process\n";
+
+    pClient client;
+    client.open(12345);
+    client.write("aaa");
     return 0;
     
 }

@@ -14,10 +14,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
-#include "comm_log.hpp"
-#include "map.hpp"
 #include <vector>
 #include <list>
+
+#include "comm_log.hpp"
+#include "map.hpp"
+#include "pClient.hpp"
 
 class HubMain {
 public:
