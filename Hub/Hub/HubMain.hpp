@@ -35,6 +35,7 @@ protected:
     time_t last_p_check_time;
     int p_check_interval;
     string process_name = "hub";
+    
 };
 
 extern mymaps map;

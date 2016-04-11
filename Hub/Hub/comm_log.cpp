@@ -16,7 +16,6 @@ int comm_log::comm_log_init(string log_file_name, string c_date)
     log_file_name=log_file_name+".out."+c_log_date+".log";
     
     log_file = getenv("LOG_PATH");
-    cout<<log_file[strlen(log_file)-1]<<endl;
 
     if (log_file[strlen(log_file)-1]!='/') {
         strcat(log_file, "/");

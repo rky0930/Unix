@@ -23,18 +23,18 @@
 using namespace std;
 class pClient {
 public:
-    int write(string port);//추후에 queue에서 데이터 가져와서 출력하도록 만듬. 
+    int write(char* msg);//추후에 queue에서 데이터 가져와서 출력하도록 만듬.
     int open(int port);
     int read();
     int close();
     int dispatch();
     int onMessage();
+    int initialize(int p_client_fd);
 private:
     struct sockaddr_in server_addr, client_addr;
     char temp[20];
     int server_fd, client_fd;
     //server_fd, client_fd : 각 소켓 번호
-    int msg_size;
     socklen_t len;
 
 };
