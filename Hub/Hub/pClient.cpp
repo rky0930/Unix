@@ -13,15 +13,16 @@ int pClient::initialize(int p_client_fd) {
     return 0;
     
 }
+int pClient::getSocket() {
+    return client_fd;
+}
+
 int pClient::write(char* msg){
     char buffer[BUF_LEN];
     memset(buffer, 0x00, sizeof(buffer));
     strcpy(buffer, msg);
     ::write(client_fd, buffer, sizeof(buffer));
-    ::close(client_fd);
-
     return 0;
-
 };
 
 int pClient::close() {

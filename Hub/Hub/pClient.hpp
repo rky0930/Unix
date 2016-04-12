@@ -30,9 +30,9 @@ public:
     int dispatch();
     int onMessage();
     int initialize(int p_client_fd);
+    int getSocket();
 private:
     struct sockaddr_in server_addr, client_addr;
-    char temp[20];
     int server_fd, client_fd;
     //server_fd, client_fd : 각 소켓 번호
     socklen_t len;

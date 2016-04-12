@@ -56,7 +56,7 @@ int HubMain::initialize() {
         cerr<<"file is not exist!"<<endl;
     }
     fd.close();
-
+    
     
     return 0;
 }
@@ -64,7 +64,7 @@ int HubMain::initialize() {
 int HubMain::process() {
     
     std::cout << "HubMain::process\n";
-
+    
     
     // Client Class
     pClient client;
@@ -74,12 +74,12 @@ int HubMain::process() {
     int server_fd, client_fd;
     //server_fd, client_fd : 각 소켓 번호
     int msg_size;
-    char temp[20];
+    char server_ip[20];
     socklen_t len;
-    int port_num =20002;
+    int port_num =20001;
     
-
-
+    
+    
     if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {// 소켓 생성
         printf("Server : Can't open stream socket\n");
@@ -104,29 +104,41 @@ int HubMain::process() {
         printf("Server : Can't listening connect.\n");
         exit(0);
     }
+    fd_set fds; 
+
     while(1)
     {
-        client_fd = ::accept(server_fd, (struct sockaddr *)&client_addr, &len);
+        
+        cout<<"Just before accept!"<<endl;
+        client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &len);
+        cout<<"Just after accept!"<<endl;
         if(client_fd < 0)
         {
             printf("Server: accept failed.\n");
             exit(0);
         }
-        inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, temp, sizeof(temp));
-
+        
+        inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, server_ip, sizeof(server_ip));
+        printf("Server : %s client connected.\n", server_ip);
+        
         client.initialize(client_fd);
-
-        printf("Server : %s client connected.\n", temp);
-
+        
+        
         char buffer[BUF_LEN];
-        memset(buffer, 0x00, sizeof(buffer));
-        len = sizeof(client_addr);
-        msg_size = ::read(client_fd, buffer, 1024);
-        cout<<"buffer_read: "<<buffer<<endl;
-        client.write(buffer);
+        while(1){
+            memset(buffer, 0x00, sizeof(buffer));
+            len = sizeof(client_addr);
+            msg_size = ::read(client_fd, buffer, 1024);
+            if(msg_size<=0) {
+                client.close();
+                break;
+            }
+            cout<<"buffer_read: "<<buffer<<endl;
+            client.write(buffer);
+        }
     }
     
-   return 0;
+    return 0;
     
 }
 
@@ -139,7 +151,7 @@ int HubMain::stop() {
 
 
 int main(int argc, const char * argv[]) {
-
+    
     if(g_app.initialize()) {
         cerr<<"Initialize Error!"<<endl;
         exit(EXIT_SUCCESS);
@@ -147,7 +159,7 @@ int main(int argc, const char * argv[]) {
     g_app.process();
     g_app.stop();
     
-
+    
     
     return 0;
 }
