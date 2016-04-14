@@ -71,12 +71,12 @@ int HubMain::process() {
     
     struct sockaddr_in server_addr, client_addr;
     
-    int server_fd, client_fd;
+    int server_fd;
     //server_fd, client_fd : 각 소켓 번호
     int msg_size;
     char server_ip[20];
     socklen_t len;
-    int port_num =20001;
+    int port_num =20002;  // chage to get from config file.
     
     
     
@@ -104,38 +104,67 @@ int HubMain::process() {
         printf("Server : Can't listening connect.\n");
         exit(0);
     }
-    fd_set fds; 
-
+    fd_set fds;
+    int max_fd=0;
+    int fds_arr[1000];
+    fds_arr[max_fd] = server_fd;
+    max_fd++;
     while(1)
     {
-        
-        cout<<"Just before accept!"<<endl;
-        client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &len);
-        cout<<"Just after accept!"<<endl;
-        if(client_fd < 0)
-        {
-            printf("Server: accept failed.\n");
-            exit(0);
+        cout<<"aaa"<<endl;
+        FD_ZERO(&fds);
+        for (int i=0;i<max_fd; i++) {
+            FD_SET(fds_arr[i], &fds);
         }
-        
+        int state = ::select(fds_arr[max_fd-1]+1, &fds, NULL, NULL, NULL);
+        cout<<"state:"<<state<<endl;
+        if (state<=0) {
+            cout<<"select error occur!"<<endl;
+        }else{
+            if(FD_ISSET(server_fd, &fds)) {
+                int client_fd=0;
+                client_fd = accept(fds_arr[0], (struct sockaddr *)&client_addr, &len);
+                if(client_fd < 0)
+                {
+                    printf("Server: accept failed.\n");
+                    exit(0);
+                }
+                client.initialize(client_fd);
+                fds_arr[max_fd]= client_fd;
+                max_fd++;
+            }
+            for(int i=1;i<max_fd;i++){
+                if(FD_ISSET(fds_arr[i],&fds)){
+                    char buffer[BUF_LEN];
+                    memset(buffer, 0x00, sizeof(buffer));
+                    msg_size = ::read(fds_arr[i], buffer, 1024);
+                    if(msg_size<=0) {
+                        client.close();
+                        break;
+                    }
+                    cout<<"R["<<fds_arr[i]<<"]: "<<buffer<<endl;
+                }
+            }
+            
+        }
+        cout<<server_fd<<" "<<fds_arr[max_fd-1]<<endl;
         inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, server_ip, sizeof(server_ip));
         printf("Server : %s client connected.\n", server_ip);
         
-        client.initialize(client_fd);
         
         
-        char buffer[BUF_LEN];
-        while(1){
-            memset(buffer, 0x00, sizeof(buffer));
-            len = sizeof(client_addr);
-            msg_size = ::read(client_fd, buffer, 1024);
-            if(msg_size<=0) {
-                client.close();
-                break;
-            }
-            cout<<"buffer_read: "<<buffer<<endl;
-            client.write(buffer);
-        }
+//        char buffer[BUF_LEN];
+//        while(1){
+//            memset(buffer, 0x00, sizeof(buffer));
+//            len = sizeof(client_addr);
+//            msg_size = ::read(client_fd, buffer, 1024);
+//            if(msg_size<=0) {
+//                client.close();
+//                break;
+//            }
+//            cout<<"buffer_read: "<<buffer<<endl;
+//            client.write(buffer);
+//        }
     }
     
     return 0;
