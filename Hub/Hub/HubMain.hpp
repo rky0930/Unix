@@ -20,6 +20,8 @@
 #include "comm_log.hpp"
 #include "map.hpp"
 #include "pClient.hpp"
+#include "MQueue.hpp"
+
 
 class HubMain {
 public:

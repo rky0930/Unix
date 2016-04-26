@@ -111,13 +111,12 @@ int HubMain::process() {
     max_fd++;
     while(1)
     {
-        cout<<"aaa"<<endl;
         FD_ZERO(&fds);
         for (int i=0;i<max_fd; i++) {
             FD_SET(fds_arr[i], &fds);
         }
         int state = ::select(fds_arr[max_fd-1]+1, &fds, NULL, NULL, NULL);
-        cout<<"state:"<<state<<endl;
+//        cout<<"state:"<<state<<endl;
         if (state<=0) {
             cout<<"select error occur!"<<endl;
         }else{
@@ -142,15 +141,14 @@ int HubMain::process() {
                         client.close();
                         break;
                     }
-                    cout<<"R["<<fds_arr[i]<<"]: "<<buffer<<endl;
+                    cout<<"R["<<fds_arr[i]<<"]: "<<buffer;
                 }
             }
             
         }
-        cout<<server_fd<<" "<<fds_arr[max_fd-1]<<endl;
-        inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, server_ip, sizeof(server_ip));
-        printf("Server : %s client connected.\n", server_ip);
-        
+//        cout<<server_fd<<" "<<fds_arr[max_fd-1]<<endl;
+//        inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, server_ip, sizeof(server_ip)); // IP 어드래스
+//        printf("Server : %s client connected.\n", server_ip);
         
         
 //        char buffer[BUF_LEN];
@@ -181,6 +179,29 @@ int HubMain::stop() {
 
 int main(int argc, const char * argv[]) {
     
+    char test[1000];
+    strcpy(test, "test111");
+    char test2[1000];
+    strcpy(test2, "test222");
+    
+    MQueue mq;
+    MESSAGE msg;
+    msg.msg_tpye = MSG_TO_DISTRIBUTER;
+    msg.msg_pointer = (unsigned long)test;
+//    msg.msg_size = strlen(test);
+    mq.putMessage(msg);
+    MESSAGE msg2;
+    msg2.msg_tpye = MSG_TO_DISTRIBUTER;
+    msg2.msg_pointer = (unsigned long)test2;
+//    msg2.msg_size = strlen(test2);
+    
+    mq.putMessage(msg2);
+    MESSAGE result;
+    mq.getMessage(result);
+    cout<<"result:"<< (char *)result.msg_pointer<<endl;
+    mq.getMessage(result);
+    cout<<"result:"<< (char *)result.msg_pointer<<endl;
+
     if(g_app.initialize()) {
         cerr<<"Initialize Error!"<<endl;
         exit(EXIT_SUCCESS);
