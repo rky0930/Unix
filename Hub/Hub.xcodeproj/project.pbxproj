@@ -12,6 +12,7 @@
 		F8A053721CB89BFC0007C651 /* comm_log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A0536E1CB89BFC0007C651 /* comm_log.cpp */; settings = {ASSET_TAGS = (); }; };
 		F8A053731CB89BFC0007C651 /* map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A053701CB89BFC0007C651 /* map.cpp */; settings = {ASSET_TAGS = (); }; };
 		F8A053761CB951E80007C651 /* pClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A053741CB951E80007C651 /* pClient.cpp */; settings = {ASSET_TAGS = (); }; };
+		F8DADCB21CD0CE5B001CC0B3 /* MThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8DADCB01CD0CE5B001CC0B3 /* MThread.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -38,6 +39,8 @@
 		F8A053711CB89BFC0007C651 /* map.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = map.hpp; sourceTree = "<group>"; };
 		F8A053741CB951E80007C651 /* pClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pClient.cpp; sourceTree = "<group>"; };
 		F8A053751CB951E80007C651 /* pClient.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pClient.hpp; sourceTree = "<group>"; };
+		F8DADCB01CD0CE5B001CC0B3 /* MThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MThread.cpp; sourceTree = "<group>"; };
+		F8DADCB11CD0CE5B001CC0B3 /* MThread.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MThread.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,18 +73,28 @@
 		F8A053631CB898060007C651 /* Hub */ = {
 			isa = PBXGroup;
 			children = (
-				F8A0536E1CB89BFC0007C651 /* comm_log.cpp */,
-				F8A0536F1CB89BFC0007C651 /* comm_log.hpp */,
-				F8A053701CB89BFC0007C651 /* map.cpp */,
-				F8A053711CB89BFC0007C651 /* map.hpp */,
+				F8DADCAF1CD0C7A6001CC0B3 /* common */,
 				F8A0536B1CB899860007C651 /* HubMain.cpp */,
 				F8A0536C1CB899860007C651 /* HubMain.hpp */,
 				F8A053741CB951E80007C651 /* pClient.cpp */,
 				F8A053751CB951E80007C651 /* pClient.hpp */,
-				F85BAA1A1CCE2A5F008F2F87 /* MQueue.cpp */,
-				F85BAA1B1CCE2A5F008F2F87 /* MQueue.hpp */,
 			);
 			path = Hub;
+			sourceTree = "<group>";
+		};
+		F8DADCAF1CD0C7A6001CC0B3 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				F8A0536E1CB89BFC0007C651 /* comm_log.cpp */,
+				F8A0536F1CB89BFC0007C651 /* comm_log.hpp */,
+				F8A053701CB89BFC0007C651 /* map.cpp */,
+				F8A053711CB89BFC0007C651 /* map.hpp */,
+				F85BAA1A1CCE2A5F008F2F87 /* MQueue.cpp */,
+				F85BAA1B1CCE2A5F008F2F87 /* MQueue.hpp */,
+				F8DADCB01CD0CE5B001CC0B3 /* MThread.cpp */,
+				F8DADCB11CD0CE5B001CC0B3 /* MThread.hpp */,
+			);
+			name = common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +156,7 @@
 				F8A053731CB89BFC0007C651 /* map.cpp in Sources */,
 				F85BAA1C1CCE2A5F008F2F87 /* MQueue.cpp in Sources */,
 				F8A053721CB89BFC0007C651 /* comm_log.cpp in Sources */,
+				F8DADCB21CD0CE5B001CC0B3 /* MThread.cpp in Sources */,
 				F8A0536D1CB899860007C651 /* HubMain.cpp in Sources */,
 				F8A053761CB951E80007C651 /* pClient.cpp in Sources */,
 			);

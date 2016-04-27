@@ -178,30 +178,6 @@ int HubMain::stop() {
 
 
 int main(int argc, const char * argv[]) {
-    
-    char test[1000];
-    strcpy(test, "test111");
-    char test2[1000];
-    strcpy(test2, "test222");
-    
-    MQueue mq;
-    MESSAGE msg;
-    msg.msg_tpye = MSG_TO_DISTRIBUTER;
-    msg.msg_pointer = (unsigned long)test;
-//    msg.msg_size = strlen(test);
-    mq.putMessage(msg);
-    MESSAGE msg2;
-    msg2.msg_tpye = MSG_TO_DISTRIBUTER;
-    msg2.msg_pointer = (unsigned long)test2;
-//    msg2.msg_size = strlen(test2);
-    
-    mq.putMessage(msg2);
-    MESSAGE result;
-    mq.getMessage(result);
-    cout<<"result:"<< (char *)result.msg_pointer<<endl;
-    mq.getMessage(result);
-    cout<<"result:"<< (char *)result.msg_pointer<<endl;
-
     if(g_app.initialize()) {
         cerr<<"Initialize Error!"<<endl;
         exit(EXIT_SUCCESS);

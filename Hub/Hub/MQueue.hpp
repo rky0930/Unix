@@ -23,7 +23,7 @@ typedef struct {
 
 class MQueue {
 public:
-    MQueue(int q_size = 10000);
+    MQueue(int q_size=1000);
     int getMessage(MESSAGE &msg);
     int putMessage(MESSAGE &msg);
     

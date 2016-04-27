@@ -10,16 +10,16 @@
 #include <iostream>
 using namespace std;
 
+
+
 MQueue::MQueue(int p_q_size) {
-    msg_queue = new MESSAGE[q_size];
     q_size    = p_q_size;
     q_count   = 0;
     q_head    = 0;
     q_tail    = 0;
+    msg_queue = new MESSAGE[q_size];
     memset(msg_queue, 0, sizeof(MESSAGE)*q_size);
-    cout<<"q_size : "<<q_size<<endl;
-    cout<<"q_count: "<<q_count<<endl;
-
+    cout<<"q_size: "<<p_q_size<<endl;
 }
 
 int MQueue::getMessage(MESSAGE &msg) {
@@ -29,10 +29,12 @@ int MQueue::getMessage(MESSAGE &msg) {
     if(q_head >= q_size) {
         q_head = 0;
     }
-    memcpy(&msg, &msg_queue[q_head], sizeof(MESSAGE));
+    memcpy(&msg, &(msg_queue[q_head]), sizeof(MESSAGE));
+
     q_count--;
     q_head++;
-    
+
+
     return 0;
 }
 int MQueue::putMessage(MESSAGE &msg) {
@@ -45,7 +47,7 @@ int MQueue::putMessage(MESSAGE &msg) {
         //queue cycle done. go back to start again.
         q_tail = 0;
     }
-    memcpy(&msg_queue[q_tail], &msg, sizeof(MESSAGE));
+    memcpy(&(msg_queue[q_tail]), &msg, sizeof(MESSAGE));
     q_count++;
     q_tail++;
     return 0;
