@@ -68,7 +68,7 @@ int HubMain::process() {
     
     // Client Class
     pClient client;
-    
+    client.run(3);
     struct sockaddr_in server_addr, client_addr;
     
     int server_fd;

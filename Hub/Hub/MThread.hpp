@@ -9,6 +9,23 @@
 #ifndef MThread_hpp
 #define MThread_hpp
 
-#include <stdio.h>
+#include <iostream>
+#include <string.h>
+#include <pthread.h>
+
+using namespace std; 
+
+class MThread {
+public:
+    bool run(int nStackSize);
+protected:
+    static void* runThread(void* pMe);
+    virtual void process();
+    
+protected:
+    pthread_t       _hThread;
+    pthread_cond_t  _hEvent;
+    pthread_mutex_t _hMutex;
+};
 
 #endif /* MThread_hpp */

@@ -18,10 +18,12 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include "MQueue.hpp"
+#include "MThread.hpp"
+
 #define BUF_LEN 128
 
 using namespace std;
-class pClient {
+class pClient : public MThread {
 public:
     int write(char* msg);//추후에 queue에서 데이터 가져와서 출력하도록 만듬.
     int open(int port);
