@@ -21,7 +21,8 @@ public:
 protected:
     static void* runThread(void* pMe);
     virtual void process();
-    
+    virtual void print_client_fd();
+
 protected:
     pthread_t       _hThread;
     pthread_cond_t  _hEvent;

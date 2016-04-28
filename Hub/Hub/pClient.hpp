@@ -33,6 +33,7 @@ public:
     int onMessage();
     int initialize(int p_client_fd);
     int getSocket();
+    void print_client_fd();
 private:
     struct sockaddr_in server_addr, client_addr;
     int server_fd, client_fd;

@@ -44,6 +44,10 @@ bool MThread::run(int nStackSize) {
 void MThread::process(){
     while (true) {
         sleep(3);
-        cout<<"MThread process()"<<endl;
+        print_client_fd();
     }
+}
+
+void MThread::print_client_fd() {
+    cout<<"MThread"<<endl;
 }

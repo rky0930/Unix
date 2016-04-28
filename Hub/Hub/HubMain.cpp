@@ -66,9 +66,6 @@ int HubMain::process() {
     std::cout << "HubMain::process\n";
     
     
-    // Client Class
-    pClient client;
-    client.run(3);
     struct sockaddr_in server_addr, client_addr;
     
     int server_fd;
@@ -128,7 +125,11 @@ int HubMain::process() {
                     printf("Server: accept failed.\n");
                     exit(0);
                 }
-                client.initialize(client_fd);
+                // Client Class
+                pClient *client = new pClient;
+                client->run(3);
+
+                client->initialize(client_fd);
                 fds_arr[max_fd]= client_fd;
                 max_fd++;
             }
@@ -138,7 +139,7 @@ int HubMain::process() {
                     memset(buffer, 0x00, sizeof(buffer));
                     msg_size = ::read(fds_arr[i], buffer, 1024);
                     if(msg_size<=0) {
-                        client.close();
+//                        client.close();
                         break;
                     }
                     cout<<"R["<<fds_arr[i]<<"]: "<<buffer;

@@ -32,3 +32,8 @@ int pClient::close() {
     return 0;
 }
 
+void pClient::print_client_fd() {
+    cout<<"pClient: "<<client_fd<<endl;
+}
+
+
