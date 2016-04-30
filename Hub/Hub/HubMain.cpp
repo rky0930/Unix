@@ -113,7 +113,6 @@ int HubMain::process() {
             FD_SET(fds_arr[i], &fds);
         }
         int state = ::select(fds_arr[max_fd-1]+1, &fds, NULL, NULL, NULL);
-//        cout<<"state:"<<state<<endl;
         if (state<=0) {
             cout<<"select error occur!"<<endl;
         }else{
@@ -125,11 +124,11 @@ int HubMain::process() {
                     printf("Server: accept failed.\n");
                     exit(0);
                 }
+                
                 // Client Class
                 pClient *client = new pClient;
-                client->run(3);
-
                 client->initialize(client_fd);
+                client_list.push_back(*client);
                 fds_arr[max_fd]= client_fd;
                 max_fd++;
             }

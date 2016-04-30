@@ -38,6 +38,7 @@ protected:
     int p_check_interval;
     string process_name = "hub";
     
+    list<pClient> client_list;
 };
 
 extern mymaps map;
