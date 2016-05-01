@@ -31,6 +31,7 @@ public:
         return process_name;
     };
     int stop();
+    int listen();
     
 protected:
     string log_file_name;
@@ -38,7 +39,11 @@ protected:
     int p_check_interval;
     string process_name = "hub";
     
-    list<pClient> client_list;
+    int server_fd;  // server socket file descripter
+    int port_num =20001;  // 컨피그 파일에서 받도록 처리할 것.
+
+    
+    list<pClient*> client_list;
 };
 
 extern mymaps map;

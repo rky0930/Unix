@@ -66,59 +66,38 @@ int HubMain::process() {
     std::cout << "HubMain::process\n";
     
     
-    struct sockaddr_in server_addr, client_addr;
+    struct sockaddr_in client_addr;
     
-    int server_fd;
     //server_fd, client_fd : 각 소켓 번호
     int msg_size;
-    char server_ip[20];
     socklen_t len;
-    int port_num =20002;  // chage to get from config file.
     
-    
-    
-    if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-    {// 소켓 생성
-        printf("Server : Can't open stream socket\n");
-        exit(0);
-    }
-    memset(&server_addr, 0x00, sizeof(server_addr));
-    //server_Addr 을 NULL로 초기화
-    
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_addr.sin_port = htons(port_num);
-    //server_addr 셋팅
-    
-    if(::bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) <0)
-    {//bind() 호출
-        printf("Server : Can't bind local address.\n");
-        exit(0);
-    }
-    
-    if(listen(server_fd, 5) < 0)
-    {//소켓을 수동 대기모드로 설정
-        printf("Server : Can't listening connect.\n");
-        exit(0);
-    }
     fd_set fds;
     int max_fd=0;
-    int fds_arr[1000];
-    fds_arr[max_fd] = server_fd;
-    max_fd++;
     while(1)
     {
-        FD_ZERO(&fds);
-        for (int i=0;i<max_fd; i++) {
-            FD_SET(fds_arr[i], &fds);
+        if(server_fd<1) {
+            listen();
+            max_fd = max(max_fd, server_fd);
         }
-        int state = ::select(fds_arr[max_fd-1]+1, &fds, NULL, NULL, NULL);
+        FD_ZERO(&fds);
+        if (server_fd>1) {
+            FD_SET(server_fd, &fds);
+        }
+        
+        list<pClient*>::iterator itr, itrPrev;
+        for(itr = client_list.begin(); (itrPrev = itr) != client_list.end();itr++) {
+            pClient* tmp_client = *itr;
+            int c_fd = tmp_client->getSocket();
+            FD_SET(c_fd, &fds);
+        }
+        int state = ::select(max_fd+1, &fds, NULL, NULL, NULL);
         if (state<=0) {
             cout<<"select error occur!"<<endl;
         }else{
             if(FD_ISSET(server_fd, &fds)) {
                 int client_fd=0;
-                client_fd = accept(fds_arr[0], (struct sockaddr *)&client_addr, &len);
+                client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &len);
                 if(client_fd < 0)
                 {
                     printf("Server: accept failed.\n");
@@ -128,23 +107,25 @@ int HubMain::process() {
                 // Client Class
                 pClient *client = new pClient;
                 client->initialize(client_fd);
-                client_list.push_back(*client);
-                fds_arr[max_fd]= client_fd;
-                max_fd++;
+                client_list.push_back(client);
+                client->run(3);
+                max_fd = max(max_fd, client_fd);
             }
-            for(int i=1;i<max_fd;i++){
-                if(FD_ISSET(fds_arr[i],&fds)){
+            for(itr = client_list.begin(); (itrPrev = itr) != client_list.end();itr++) {
+                pClient* tmp_client = *itr;
+                
+                int c_fd = tmp_client->getSocket();
+                if (FD_ISSET(c_fd, &fds)) {
                     char buffer[BUF_LEN];
                     memset(buffer, 0x00, sizeof(buffer));
-                    msg_size = ::read(fds_arr[i], buffer, 1024);
-                    if(msg_size<=0) {
-//                        client.close();
+                    msg_size = ::read(c_fd, buffer, 1024);
+                    if(msg_size<=0){
+                        tmp_client->close();
                         break;
                     }
-                    cout<<"R["<<fds_arr[i]<<"]: "<<buffer;
+                    cout<<"["<<c_fd<<"]("<<msg_size<<"): "<<buffer;
                 }
             }
-            
         }
 //        cout<<server_fd<<" "<<fds_arr[max_fd-1]<<endl;
 //        inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, server_ip, sizeof(server_ip)); // IP 어드래스
@@ -174,7 +155,36 @@ int HubMain::stop() {
     return 0;
 }
 
+int HubMain::listen() {
+    struct sockaddr_in server_addr;
+    if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {// 소켓 생성
+        printf("Server : Can't open stream socket\n");
+        exit(0);
+    }
+    memset(&server_addr, 0x00, sizeof(server_addr));
+    //server_Addr 을 NULL로 초기화
+    
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_addr.sin_port = htons(port_num);
+    //server_addr 셋팅
+    
+    if(::bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) <0)
+    {//bind() 호출
+        printf("Server : Can't bind local address.\n");
+        exit(0);
+    }
+    
+    if(::listen(server_fd, 5) < 0)
+    {//소켓을 수동 대기모드로 설정
+        printf("Server : Can't listening connect.\n");
+        exit(0);
+    }
 
+    
+    return 0;
+}
 
 
 int main(int argc, const char * argv[]) {
