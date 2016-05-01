@@ -43,11 +43,31 @@ bool MThread::run(int nStackSize) {
 
 void MThread::process(){
     while (true) {
+        if(thread_stop_flag) {
+            cout<<"MThread stop"<<endl;
+            break;
+        }
         sleep(3);
         print_client_fd();
     }
 }
 
+void MThread::stop() {
+    close();
+    thread_stop_flag = true;
+    if(_hThread){
+        pthread_join(_hThread, 0);
+        pthread_cond_destroy(&_hEvent);
+        pthread_mutex_destroy(&_hMutex);
+    }
+    _hThread = 0;
+}
+
+int   MThread::close() {
+    cout<<"MThread close"<<endl;
+    return 0;
+}
+
 void MThread::print_client_fd() {
-    cout<<"MThread"<<endl;
+    cout<<"MThread print_client_fd"<<endl;
 }

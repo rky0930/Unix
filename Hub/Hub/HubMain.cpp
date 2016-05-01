@@ -23,7 +23,7 @@ int HubMain::initialize() {
     //config file reading
     char* env_file;
     string cfg_location;
-    ifstream fd;
+    ifstream cfg_fd;
     
     env_file = getenv("PROCESS_CFG");
     if (env_file == NULL) {
@@ -34,13 +34,13 @@ int HubMain::initialize() {
     }
     
     
-    fd.open (cfg_location);
+    cfg_fd.open (cfg_location);
     
     string line;
     string word;
     string a, key, value;
-    if(fd.is_open()){
-        while (getline(fd, line)) {
+    if(cfg_fd.is_open()){
+        while (getline(cfg_fd, line)) {
             for (int i =0; i<line.size(); i++) {
                 a=line.at(i);
                 if (a=="#") break;
@@ -55,75 +55,65 @@ int HubMain::initialize() {
     }else{
         cerr<<"file is not exist!"<<endl;
     }
-    fd.close();
+    cfg_fd.close();
     
+    max_fd = 0 ;
+    port_num  = 20001;
     
     return 0;
 }
 
 int HubMain::process() {
-    
     std::cout << "HubMain::process\n";
-    
-    
-    struct sockaddr_in client_addr;
-    
-    //server_fd, client_fd : 각 소켓 번호
-    int msg_size;
-    socklen_t len;
-    
-    fd_set fds;
-    int max_fd=0;
     while(1)
     {
         if(server_fd<1) {
-            listen();
+            ServerListen();
             max_fd = max(max_fd, server_fd);
         }
+        fd_set fds;
         FD_ZERO(&fds);
         if (server_fd>1) {
             FD_SET(server_fd, &fds);
         }
         
         list<pClient*>::iterator itr, itrPrev;
-        for(itr = client_list.begin(); (itrPrev = itr) != client_list.end();itr++) {
+        for(itr = client_list.begin(); (itrPrev = itr) != client_list.end();) {
             pClient* tmp_client = *itr;
             int c_fd = tmp_client->getSocket();
-            FD_SET(c_fd, &fds);
+            itr++;
+            if(c_fd){
+                FD_SET(c_fd, &fds);
+            }else{
+                client_list.erase(itrPrev);
+                tmp_client->stop();
+                delete tmp_client;
+            }
         }
         int state = ::select(max_fd+1, &fds, NULL, NULL, NULL);
         if (state<=0) {
             cout<<"select error occur!"<<endl;
+            continue;
         }else{
             if(FD_ISSET(server_fd, &fds)) {
-                int client_fd=0;
-                client_fd = accept(server_fd, (struct sockaddr *)&client_addr, &len);
-                if(client_fd < 0)
-                {
-                    printf("Server: accept failed.\n");
-                    exit(0);
-                }
-                
-                // Client Class
-                pClient *client = new pClient;
-                client->initialize(client_fd);
-                client_list.push_back(client);
-                client->run(3);
-                max_fd = max(max_fd, client_fd);
+                ClientAccept();
             }
             for(itr = client_list.begin(); (itrPrev = itr) != client_list.end();itr++) {
                 pClient* tmp_client = *itr;
                 
                 int c_fd = tmp_client->getSocket();
                 if (FD_ISSET(c_fd, &fds)) {
-                    char buffer[BUF_LEN];
-                    memset(buffer, 0x00, sizeof(buffer));
-                    msg_size = ::read(c_fd, buffer, 1024);
-                    if(msg_size<=0){
+                    ssize_t msg_size = 0;
+                    char* buffer = NULL;
+                    msg_size = tmp_client->read(buffer);
+                    if(msg_size<0) {
                         tmp_client->close();
-                        break;
                     }
                     cout<<"["<<c_fd<<"]("<<msg_size<<"): "<<buffer;
+                    // 메세지를 큐에 넣어야함
+                    // 큐에 쌓인 메시지를 distributer 에 전송함
+                    // distributer가 다시 client에 넣어줌
+                    // client가 개별 프로세스로 다시 보냄
                 }
             }
         }
@@ -155,7 +145,7 @@ int HubMain::stop() {
     return 0;
 }
 
-int HubMain::listen() {
+int HubMain::ServerListen() {
     struct sockaddr_in server_addr;
     if((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {// 소켓 생성
@@ -181,11 +171,30 @@ int HubMain::listen() {
         printf("Server : Can't listening connect.\n");
         exit(0);
     }
+    return 0;
+}
+
+int HubMain::ClientAccept() {
+    socklen_t len;
+    struct sockaddr_in client_addr;
+    int client_fd=0;
+    client_fd = ::accept(server_fd, (struct sockaddr *)&client_addr, &len);
+    if(client_fd < 0)
+    {
+        printf("Server: accept failed.\n");
+        exit(0);
+    }
+    
+    // Client Class
+    pClient *client = new pClient;
+    client->initialize(client_fd);
+    client_list.push_back(client);
+    client->run(3);
+    max_fd = max(max_fd, client_fd);
 
     
     return 0;
 }
-
 
 int main(int argc, const char * argv[]) {
     if(g_app.initialize()) {

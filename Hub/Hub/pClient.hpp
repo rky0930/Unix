@@ -19,6 +19,8 @@
 #include <arpa/inet.h>
 #include "MQueue.hpp"
 #include "MThread.hpp"
+#include <sys/ioctl.h>
+
 
 #define BUF_LEN 128
 
@@ -27,7 +29,7 @@ class pClient : public MThread {
 public:
     int write(char* msg);//추후에 queue에서 데이터 가져와서 출력하도록 만듬.
     int open(int port);
-    int read();
+    ssize_t read(char* &buffer);
     int close();
     int dispatch();
     int onMessage();
@@ -39,6 +41,7 @@ private:
     int server_fd, client_fd;
     //server_fd, client_fd : 각 소켓 번호
     socklen_t len;
+    bool client_close_flag;
 
 };
 

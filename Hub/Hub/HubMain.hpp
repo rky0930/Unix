@@ -27,20 +27,24 @@ class HubMain {
 public:
     int initialize();
     int process();
+    int stop();
+    int ServerListen();
+    int ClientAccept();
     string getProcessName(){
         return process_name;
     };
-    int stop();
-    int listen();
-    
+
 protected:
     string log_file_name;
     time_t last_p_check_time;
     int p_check_interval;
     string process_name = "hub";
     
+    
+    // Network programming related Variables. 
+    int max_fd;
     int server_fd;  // server socket file descripter
-    int port_num =20001;  // 컨피그 파일에서 받도록 처리할 것.
+    int port_num;  // 컨피그 파일에서 받도록 처리할 것.
 
     
     list<pClient*> client_list;
