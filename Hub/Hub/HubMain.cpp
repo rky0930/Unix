@@ -110,6 +110,7 @@ int HubMain::process() {
                         tmp_client->close();
                     }
                     cout<<"["<<c_fd<<"]("<<msg_size<<"): "<<buffer;
+                    tmp_client->postMessage(1,msg_size, (unsigned long)buffer);
                     // 메세지를 큐에 넣어야함
                     // 큐에 쌓인 메시지를 distributer 에 전송함
                     // distributer가 다시 client에 넣어줌

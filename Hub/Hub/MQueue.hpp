@@ -17,7 +17,7 @@
 
 typedef struct {
     int msg_tpye;
-    int msg_size;
+    ssize_t msg_size;
     unsigned long msg_pointer;
 }MESSAGE;
 

@@ -47,8 +47,12 @@ void MThread::process(){
             cout<<"MThread stop"<<endl;
             break;
         }
-        sleep(3);
+//        sleep(3);
+        MESSAGE msg;
         print_client_fd();
+        if(mqueue.getMessage(msg))
+            continue;
+        cout<<"msg:"<<(char*)msg.msg_pointer<<endl;   
     }
 }
 
@@ -61,6 +65,16 @@ void MThread::stop() {
         pthread_mutex_destroy(&_hMutex);
     }
     _hThread = 0;
+}
+
+void MThread::postMessage(int msg_tpye, ssize_t msg_size, unsigned long msg_pointer) {
+    
+    MESSAGE msg;
+    msg.msg_tpye = msg_tpye;
+    msg.msg_size = msg_size;
+    msg.msg_pointer = msg_pointer;
+    
+    mqueue.putMessage(msg);
 }
 
 int   MThread::close() {
