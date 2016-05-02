@@ -26,6 +26,8 @@ protected:
     virtual void process();
     virtual void print_client_fd();
     virtual int close();
+    virtual int write(const char* msg, int msg_size);
+
 
 protected:
     pthread_t       _hThread;

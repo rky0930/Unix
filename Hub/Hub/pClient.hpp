@@ -27,7 +27,7 @@
 using namespace std;
 class pClient : public MThread {
 public:
-    int write(char* msg);//추후에 queue에서 데이터 가져와서 출력하도록 만듬.
+    int write(const char* msg, int msg_size);
     int open(int port);
     ssize_t read(char* &buffer);
     int close();

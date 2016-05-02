@@ -34,11 +34,8 @@ ssize_t pClient::read(char* &buffer) {
     return msg_size;
 }
 
-int pClient::write(char* msg){
-    char buffer[BUF_LEN];
-    memset(buffer, 0x00, sizeof(buffer));
-    strcpy(buffer, msg);
-    ::write(client_fd, buffer, sizeof(buffer));
+int pClient::write(const char* msg, int msg_size){
+    ::write(client_fd, msg, msg_size);
     return 0;
 };
 

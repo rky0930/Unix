@@ -47,12 +47,21 @@ void MThread::process(){
             cout<<"MThread stop"<<endl;
             break;
         }
-//        sleep(3);
         MESSAGE msg;
-        print_client_fd();
+        sleep(1);
+
         if(mqueue.getMessage(msg))
             continue;
-        cout<<"msg:"<<(char*)msg.msg_pointer<<endl;   
+        
+        char* pData = (char*)msg.msg_pointer;
+        if(msg.msg_tpye) {
+           // to distriuter
+            cout<<endl;
+        }else{
+            print_client_fd();
+            write(pData, msg.msg_size);
+        }
+
     }
 }
 
@@ -84,4 +93,9 @@ int   MThread::close() {
 
 void MThread::print_client_fd() {
     cout<<"MThread print_client_fd"<<endl;
+}
+
+int MThread::write(const char *msg, int msg_size) {
+    cout<<"MThread write"<<endl;
+    return 0;
 }
