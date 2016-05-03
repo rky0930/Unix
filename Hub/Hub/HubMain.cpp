@@ -111,10 +111,10 @@ int HubMain::process() {
                     }
                     cout<<"["<<c_fd<<"]("<<msg_size<<"): "<<buffer;
                     tmp_client->postMessage(0,msg_size, (unsigned long)buffer);
-                    // 메세지를 큐에 넣어야함
-                    // 큐에 쌓인 메시지를 distributer 에 전송함
-                    // distributer가 다시 client에 넣어줌
-                    // client가 개별 프로세스로 다시 보냄
+                    
+                    // Distribute
+                    // interface (server <-> client Message string)
+                    // Hub_Client
                 }
             }
         }
