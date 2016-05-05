@@ -34,9 +34,8 @@ ssize_t pClient::read(char* &buffer) {
     return msg_size;
 }
 
-int pClient::write(const char* msg, int msg_size){
-    ::write(client_fd, msg, msg_size);
-    return 0;
+ssize_t pClient::write(const char* msg, ssize_t msg_size){
+    return ::write(client_fd, msg, msg_size);
 };
 
 int pClient::close() {
@@ -51,7 +50,7 @@ int pClient::close() {
 }
 
 void pClient::print_client_fd() {
-    cout<<"pClient: "<<client_fd;
+    cout<<"pClient: "<<client_fd<<endl;
 }
 
 

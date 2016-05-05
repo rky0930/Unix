@@ -109,8 +109,16 @@ int HubMain::process() {
                     if(msg_size<0) {
                         tmp_client->close();
                     }
-                    cout<<"["<<c_fd<<"]("<<msg_size<<"): "<<buffer;
-                    tmp_client->postMessage(0,msg_size, (unsigned long)buffer);
+                    
+                    HUB_PACKET_HEADER hub_packet_header;
+                    memset(&hub_packet_header, 0, HUB_PACKET_HEADER_LEN);
+                    memcpy(&hub_packet_header, buffer, HUB_PACKET_HEADER_LEN);
+
+                    char data[MAX_HUB_PACKET_LEN];
+                    memset(data, 0, MAX_HUB_PACKET_LEN);
+                    
+                    memcpy(data, buffer+HUB_PACKET_HEADER_LEN, hub_packet_header.data_len);
+                    tmp_client->postMessage(TO_DISTRIBUTER, msg_size, (unsigned long)buffer);
                     
                     // Distribute
                     // interface (server <-> client Message string)

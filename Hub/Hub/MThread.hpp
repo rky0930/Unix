@@ -13,6 +13,8 @@
 #include <string.h>
 #include <pthread.h>
 #include "MQueue.hpp"
+#include "Hub_Interface.h"
+
 
 using namespace std; 
 
@@ -26,7 +28,7 @@ protected:
     virtual void process();
     virtual void print_client_fd();
     virtual int close();
-    virtual int write(const char* msg, int msg_size);
+    virtual ssize_t write(const char* msg, ssize_t msg_size);
 
 
 protected:

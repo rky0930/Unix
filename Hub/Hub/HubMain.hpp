@@ -21,6 +21,7 @@
 #include "map.hpp"
 #include "pClient.hpp"
 #include "MQueue.hpp"
+#include "Hub_Interface.h"
 
 
 class HubMain {

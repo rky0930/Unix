@@ -27,7 +27,7 @@
 using namespace std;
 class pClient : public MThread {
 public:
-    int write(const char* msg, int msg_size);
+    ssize_t write(const char* msg, ssize_t msg_size);
     int open(int port);
     ssize_t read(char* &buffer);
     int close();

@@ -54,12 +54,15 @@ void MThread::process(){
             continue;
         
         char* pData = (char*)msg.msg_pointer;
-        if(msg.msg_tpye) {
+        if(msg.msg_tpye==TO_DISTRIBUTER) {
            // to distriuter
             cout<<endl;
-        }else{
-            print_client_fd();
-            write(pData, msg.msg_size);
+        }else if(msg.msg_tpye==TO_CLIENT){
+            ssize_t nWrite;
+            nWrite = write(pData, msg.msg_size);
+            if(nWrite <0){
+                cerr<<"MThread: write error!"<<endl;
+            }
         }
 
     }
@@ -95,7 +98,7 @@ void MThread::print_client_fd() {
     cout<<"MThread print_client_fd"<<endl;
 }
 
-int MThread::write(const char *msg, int msg_size) {
+ssize_t MThread::write(const char *msg, ssize_t msg_size) {
     cout<<"MThread write"<<endl;
     return 0;
 }

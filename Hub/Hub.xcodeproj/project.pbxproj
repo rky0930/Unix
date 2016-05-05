@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F825628E1CD9825400825FB2 /* Distributer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F825628C1CD9825400825FB2 /* Distributer.cpp */; settings = {ASSET_TAGS = (); }; };
+		F84F03C01CDA4C7C00153A1D /* Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F84F03BE1CDA4C7C00153A1D /* Controller.cpp */; settings = {ASSET_TAGS = (); }; };
 		F85BAA1C1CCE2A5F008F2F87 /* MQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F85BAA1A1CCE2A5F008F2F87 /* MQueue.cpp */; settings = {ASSET_TAGS = (); }; };
 		F8A0536D1CB899860007C651 /* HubMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A0536B1CB899860007C651 /* HubMain.cpp */; settings = {ASSET_TAGS = (); }; };
 		F8A053721CB89BFC0007C651 /* comm_log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8A0536E1CB89BFC0007C651 /* comm_log.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -28,6 +30,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F825628C1CD9825400825FB2 /* Distributer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Distributer.cpp; sourceTree = "<group>"; };
+		F825628D1CD9825400825FB2 /* Distributer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Distributer.hpp; sourceTree = "<group>"; };
+		F825628F1CD9903C00825FB2 /* Hub_Interface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hub_Interface.h; sourceTree = "<group>"; };
+		F84F03BE1CDA4C7C00153A1D /* Controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Controller.cpp; sourceTree = "<group>"; };
+		F84F03BF1CDA4C7C00153A1D /* Controller.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Controller.hpp; sourceTree = "<group>"; };
 		F85BAA1A1CCE2A5F008F2F87 /* MQueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MQueue.cpp; sourceTree = "<group>"; };
 		F85BAA1B1CCE2A5F008F2F87 /* MQueue.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = MQueue.hpp; sourceTree = "<group>"; };
 		F8A053611CB898060007C651 /* Hub */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Hub; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,10 +81,15 @@
 			isa = PBXGroup;
 			children = (
 				F8DADCAF1CD0C7A6001CC0B3 /* common */,
+				F825628F1CD9903C00825FB2 /* Hub_Interface.h */,
 				F8A0536B1CB899860007C651 /* HubMain.cpp */,
 				F8A0536C1CB899860007C651 /* HubMain.hpp */,
+				F825628C1CD9825400825FB2 /* Distributer.cpp */,
+				F825628D1CD9825400825FB2 /* Distributer.hpp */,
 				F8A053741CB951E80007C651 /* pClient.cpp */,
 				F8A053751CB951E80007C651 /* pClient.hpp */,
+				F84F03BE1CDA4C7C00153A1D /* Controller.cpp */,
+				F84F03BF1CDA4C7C00153A1D /* Controller.hpp */,
 			);
 			path = Hub;
 			sourceTree = "<group>";
@@ -156,6 +168,8 @@
 				F8A053731CB89BFC0007C651 /* map.cpp in Sources */,
 				F85BAA1C1CCE2A5F008F2F87 /* MQueue.cpp in Sources */,
 				F8A053721CB89BFC0007C651 /* comm_log.cpp in Sources */,
+				F84F03C01CDA4C7C00153A1D /* Controller.cpp in Sources */,
+				F825628E1CD9825400825FB2 /* Distributer.cpp in Sources */,
 				F8DADCB21CD0CE5B001CC0B3 /* MThread.cpp in Sources */,
 				F8A0536D1CB899860007C651 /* HubMain.cpp in Sources */,
 				F8A053761CB951E80007C651 /* pClient.cpp in Sources */,
