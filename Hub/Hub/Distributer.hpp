@@ -14,13 +14,6 @@
 
 #endif /* Distributer_hpp */
 
-/*
- client에게 데이터 전달 
- 해더가 필요..
- 
- 
- */
-
 class Distributer {
     
     

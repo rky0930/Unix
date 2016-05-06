@@ -94,10 +94,6 @@ int   MThread::close() {
     return 0;
 }
 
-void MThread::print_client_fd() {
-    cout<<"MThread print_client_fd"<<endl;
-}
-
 ssize_t MThread::write(const char *msg, ssize_t msg_size) {
     cout<<"MThread write"<<endl;
     return 0;

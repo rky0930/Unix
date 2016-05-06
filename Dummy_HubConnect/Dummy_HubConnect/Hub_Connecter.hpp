@@ -19,10 +19,10 @@ using namespace std;
 class Hub_Connecter {
     
 public:
-    int open(unsigned char proc_id, unsigned char proc_no, const char* hub_ip="0.0.0.0", const int port=20001);
-    int write(const char* pData, unsigned int data_len, unsigned char dst_proc_id, unsigned char dst_proc_no);
+    int open(const char* hub_ip, const int port);
+    int write(int msg_type, int dst_proc_id, int dst_proc_no, const char* pData=NULL, unsigned int data_len=0);
     int read();
-    Hub_Connecter(unsigned char dst_proc_id, unsigned char dst_proc_no);
+    Hub_Connecter(int dst_proc_id, int dst_proc_no);
 protected:
     //packet
     unsigned char src_proc_id;

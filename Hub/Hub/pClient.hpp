@@ -34,15 +34,21 @@ public:
     int dispatch();
     int onMessage();
     int initialize(int p_client_fd);
+    
+    // 프로세스 등록
+    void setProcInfo(unsigned char proc_id, unsigned char proc_no);
+    unsigned char getProcId();
+    unsigned char getProcNo();
+    
     int getSocket();
-    void print_client_fd();
 private:
     struct sockaddr_in server_addr, client_addr;
     int server_fd, client_fd;
     //server_fd, client_fd : 각 소켓 번호
     socklen_t len;
     bool client_close_flag;
-
+    unsigned char proc_id;
+    unsigned char proc_no;
 };
 
 #endif /* pClient_hpp */

@@ -9,23 +9,16 @@
 #include "Hub_Connecter.hpp"
 
 
-Hub_Connecter::Hub_Connecter(unsigned char p_src_proc_id, unsigned char p_src_proc_no){
+Hub_Connecter::Hub_Connecter(int p_src_proc_id, int p_src_proc_no){
     src_proc_id = p_src_proc_id;
     src_proc_no = p_src_proc_no;
 }
 
-int Hub_Connecter::open(unsigned char proc_id, unsigned char proc_no, const char* hub_ip, const int hub_port) {
-    
-    cout<<hub_ip<<endl;
-    cout<<hub_port<<endl;
-    
-    memset(&hub_sock, 0, sizeof(hub_sock));
-    
-    HUB_REGISTER reg;
-    reg.proc_id = proc_id;
-    reg.proc_no = proc_no;
+int Hub_Connecter::open(const char* hub_ip, const int hub_port) {
     
 
+    memset(&hub_sock, 0, sizeof(hub_sock));
+    
     hub_sock.sin_family = AF_INET;
     hub_sock.sin_addr.s_addr = inet_addr(hub_ip); //IP ADDR
     hub_sock.sin_port = htons(hub_port); // PORT
@@ -39,11 +32,14 @@ int Hub_Connecter::open(unsigned char proc_id, unsigned char proc_no, const char
     
     // register
     // data write..
+    write(REGISTER_MESSAGE, PROCID_HUB, 0);
+
+    
     
     return 0;
 }
 
-int Hub_Connecter::write(const char* pData, unsigned int data_len, unsigned char dst_proc_id, unsigned char dst_proc_no) {
+int Hub_Connecter::write(int msg_type, int dst_proc_id, int dst_proc_no, const char* pData,unsigned int data_len) {
     
     if(hub_fd <= 0) {
         cerr<<"write::Hub Connect Error!"<<endl;
@@ -52,11 +48,19 @@ int Hub_Connecter::write(const char* pData, unsigned int data_len, unsigned char
     
     HUB_PACKET_HEADER hub_packet_header;
     
-    hub_packet_header.src_proc_id = '1';
-    hub_packet_header.src_proc_no = '1';
-    hub_packet_header.dst_proc_id = '1';
-    hub_packet_header.dst_proc_no = '1';
-    hub_packet_header.data_len    = data_len   ;
+    hub_packet_header.msg_type    = msg_type ;
+    hub_packet_header.src_proc_id = src_proc_id  ;
+    hub_packet_header.src_proc_no = src_proc_no  ;
+    hub_packet_header.dst_proc_id = dst_proc_id  ;
+    hub_packet_header.dst_proc_no = dst_proc_no  ;
+    hub_packet_header.data_len    = data_len     ;
+    
+    cout<<"msg_type   : "<<(int)hub_packet_header.msg_type<<endl;
+    cout<<"src_proc_id: "<<(int)hub_packet_header.src_proc_id<<endl;
+    cout<<"src_proc_no: "<<(int)hub_packet_header.src_proc_no<<endl;
+    cout<<"dst_proc_id: "<<(int)hub_packet_header.dst_proc_id<<endl;
+    cout<<"dst_proc_no: "<<(int)hub_packet_header.dst_proc_no<<endl;
+    cout<<"data_len   : "<<(int)hub_packet_header.data_len<<endl;
     
     char packet[MAX_HUB_PACKET_LEN];
     ssize_t  packet_len = 0;
@@ -64,9 +68,11 @@ int Hub_Connecter::write(const char* pData, unsigned int data_len, unsigned char
     memcpy(packet, &hub_packet_header, HUB_PACKET_HEADER_LEN);
     packet_len += HUB_PACKET_HEADER_LEN;
     
-    memcpy(packet+HUB_PACKET_HEADER_LEN, pData, data_len);
-    packet_len += data_len;
-    cout<<pData<<endl;
+    if(msg_type == DATA_MESSAGE) {
+        memcpy(packet+HUB_PACKET_HEADER_LEN, pData, data_len);
+        packet_len += data_len;
+        cout<<pData<<endl;
+    }
     ssize_t nWrite = ::write(hub_fd, packet, packet_len);
     if(nWrite < 0) {
         cerr<<"Hub_Connecter: write error!"<<endl;

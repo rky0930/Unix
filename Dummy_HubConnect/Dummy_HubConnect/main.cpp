@@ -19,9 +19,9 @@ int main(int argc, const char * argv[]) {
     }
     
     
-    Hub_Connecter g_hub(PROCID_TF, 0);
+    Hub_Connecter g_hub(PROCID_TF, 3);
     
-    if(g_hub.open(PROCID_TF, 1)){
+    if(g_hub.open("0.0.0.0", 20001)){
         cerr<<"main: open error!"<<endl;
         exit(1);
     }
@@ -33,8 +33,8 @@ int main(int argc, const char * argv[]) {
         c_log.write_log(1,p_name);
         
         char test[101];
-        strcpy(test, "fgdfgdfhgdfhdghfhjgfjhgfjfggjh");
-        g_hub.write(test, 101, PROCID_HUB, 0);
+        strcpy(test, "Correct message from Dummy! :D");
+        g_hub.write(DATA_MESSAGE, PROCID_JV, 1, test, 101);
 
     }
     

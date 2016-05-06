@@ -106,26 +106,47 @@ int HubMain::process() {
                     ssize_t msg_size = 0;
                     char* buffer = NULL;
                     msg_size = tmp_client->read(buffer);
+                    tmp_client->putRawMessage(msg_size, buffer);
+                    
+                    // client 가 읽으면
+                    // 바로 메시지에 넣고
+                    // 클라이언트에서 서로 전달하도록 설계
+                    // 큐에 메모리 누수가 없이 설계 하도록함.
+                    
                     if(msg_size<0) {
                         tmp_client->close();
                     }
                     
-                    HUB_PACKET_HEADER hub_packet_header;
-                    memset(&hub_packet_header, 0, HUB_PACKET_HEADER_LEN);
-                    memcpy(&hub_packet_header, buffer, HUB_PACKET_HEADER_LEN);
-
-                    char data[MAX_HUB_PACKET_LEN];
-                    memset(data, 0, MAX_HUB_PACKET_LEN);
-                    
-                    memcpy(data, buffer+HUB_PACKET_HEADER_LEN, hub_packet_header.data_len);
-                    tmp_client->postMessage(TO_DISTRIBUTER, msg_size, (unsigned long)buffer);
-                    
-                    // Distribute
-                    // interface (server <-> client Message string)
-                    // Hub_Client
                 }
             }
         }
+        
+//        나중에 사용
+//        cout<<"msg_size: "<<msg_size<<endl;
+//        HUB_PACKET_HEADER hub_packet_header;
+//        memset(&hub_packet_header, 0, HUB_PACKET_HEADER_LEN);
+//        memcpy(&hub_packet_header, buffer, HUB_PACKET_HEADER_LEN);
+//        
+//        if (hub_packet_header.data_len >0) {
+//            char data[MAX_HUB_PACKET_LEN];
+//            memset(data, 0, MAX_HUB_PACKET_LEN);
+//            memcpy(data, buffer+HUB_PACKET_HEADER_LEN, hub_packet_header.data_len);
+//            cout<<"data       : "<<data<<endl;
+//        }
+//        
+//        // 클라이언트에 자기 아이디 등록
+//        if (hub_packet_header.msg_type == DATA_MESSAGE) {
+//            
+//            tmp_client->postMessage(TO_DISTRIBUTER, msg_size, (unsigned long)buffer);
+//            
+//        }else if(hub_packet_header.msg_type == REGISTER_MESSAGE) {
+//            
+//            tmp_client->setProcInfo(hub_packet_header.src_proc_id, hub_packet_header.src_proc_no);
+//            
+//        }
+
+        
+        
 //        cout<<server_fd<<" "<<fds_arr[max_fd-1]<<endl;
 //        inet_ntop(AF_INET, &client_addr.sin_addr.s_addr, server_ip, sizeof(server_ip)); // IP 어드래스
 //        printf("Server : %s client connected.\n", server_ip);

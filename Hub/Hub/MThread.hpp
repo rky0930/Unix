@@ -15,6 +15,8 @@
 #include "MQueue.hpp"
 #include "Hub_Interface.h"
 
+#define TO_DISTRIBUTER 0x01
+#define TO_CLIENT      0x02
 
 using namespace std; 
 
@@ -26,7 +28,6 @@ public:
 protected:
     static void* runThread(void* pMe);
     virtual void process();
-    virtual void print_client_fd();
     virtual int close();
     virtual ssize_t write(const char* msg, ssize_t msg_size);
 
