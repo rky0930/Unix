@@ -48,7 +48,7 @@ void MQueue::putRawMessage(ssize_t msg_size, char* &msg){
 ssize_t MQueue::getRawMessage(char* &msg){
     MESSAGE tmp_msg;
     getMessage(tmp_msg);
-    memcpy(msg, tmp_msg.msg_pointer, tmp_msg.msg_size);
+    memcpy(&msg, &(tmp_msg.msg_pointer), tmp_msg.msg_size);
     return tmp_msg.msg_size;
     
 }

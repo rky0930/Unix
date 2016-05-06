@@ -31,7 +31,6 @@ protected:
     virtual int close();
     virtual ssize_t write(const char* msg, ssize_t msg_size);
 
-
 protected:
     pthread_t       _hThread;
     pthread_cond_t  _hEvent;
