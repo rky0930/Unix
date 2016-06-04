@@ -44,6 +44,7 @@ int ManagerMain::initialize()
     string a, key, value;
     if(fd.is_open()){
         while (getline(fd, line)) {
+            cout<<"line: "<<line<<endl;
             for (int i =0; i<line.size(); i++) {
                 a=line.at(i);
                 if (a=="#") break;

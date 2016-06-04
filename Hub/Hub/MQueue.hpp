@@ -12,6 +12,10 @@
 #include <stdio.h>
 #include <string.h>
 
+
+#define TO_OTHER_CLIENT 0x01
+#define TO_MY_CLIENT    0x02
+
 typedef struct {
     int msg_tpye;
     ssize_t msg_size;

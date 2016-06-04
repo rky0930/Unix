@@ -35,7 +35,7 @@ public:
     string getProcessName(){
         return process_name;
     };
-
+    list<pClient*> & getClientList();
 protected:
     string log_file_name;
     time_t last_p_check_time;

@@ -12,11 +12,10 @@
 #include <iostream>
 #include <string.h>
 #include <pthread.h>
-#include "MQueue.hpp"
 #include "Hub_Interface.h"
+#include "MQueue.hpp"
 
-#define TO_DISTRIBUTER 0x01
-#define TO_CLIENT      0x02
+
 
 using namespace std; 
 
@@ -24,13 +23,17 @@ class MThread {
 public:
     bool run(int nStackSize);
     void stop();
-    void postMessage(int msg_tpye, ssize_t msg_size=0, unsigned long msg_pointer=0);
+    void postMessage(ssize_t msg_size, unsigned long msg_pointer);
 protected:
     static void* runThread(void* pMe);
     virtual void process();
     virtual int close();
     virtual ssize_t write(const char* msg, ssize_t msg_size);
-
+    
+    virtual void setProcInfo(unsigned char proc_id, unsigned char proc_no);
+    virtual unsigned char getProcId();
+    virtual unsigned char getProcNo();
+    
 protected:
     pthread_t       _hThread;
     pthread_cond_t  _hEvent;

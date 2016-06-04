@@ -10,6 +10,7 @@
 #include <iostream>
 using namespace std;
 
+#include "Hub_Interface.h"
 
 
 MQueue::MQueue(int p_q_size) {
@@ -37,20 +38,11 @@ int MQueue::getMessage(MESSAGE &msg) {
     return 0;
 }
 
-void MQueue::putRawMessage(ssize_t msg_size, char* &msg){
-    MESSAGE tmp_msg;
-    cout<<&tmp_msg<<endl;  //계속 변해야함
-    tmp_msg.msg_pointer = (unsigned long)msg;
-    tmp_msg.msg_size = msg_size;
-    putMessage(tmp_msg);
-}
-
 ssize_t MQueue::getRawMessage(char* &msg){
     MESSAGE tmp_msg;
     getMessage(tmp_msg);
     memcpy(&msg, &(tmp_msg.msg_pointer), tmp_msg.msg_size);
     return tmp_msg.msg_size;
-    
 }
 
 int MQueue::putMessage(MESSAGE &msg) {
@@ -68,3 +60,13 @@ int MQueue::putMessage(MESSAGE &msg) {
     q_tail++;
     return 0;
 }
+
+void MQueue::putRawMessage(ssize_t msg_size, char* &msg){
+    MESSAGE tmp_msg;
+    cout<<&tmp_msg<<endl;  //계속 변해야함
+    //패킷 해더 검출
+    tmp_msg.msg_pointer = (unsigned long)msg;
+    tmp_msg.msg_size = msg_size;
+    putMessage(tmp_msg);
+}
+

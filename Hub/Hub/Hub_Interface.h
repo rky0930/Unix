@@ -34,9 +34,9 @@ typedef struct {
     char* data;
 } HUB_PACKET;
 
-#define HUB_REGISTER_LEN       sizeof(HUB_REGISTER)
-#define HUB_PACKET_HEADER_LEN  sizeof(HUB_PACKET_HEADER)
-#define HUB_PAKCET_LEN         sizeof(HUB_PACKET)
-#define MAX_HUB_PACKET_LEN     0x1000
+
+#define HUB_PACKET_HEADER_LEN    sizeof(HUB_PACKET_HEADER)
+#define MAX_HUB_PACKET_DATA_LEN  0x1000
+#define MAX_HUB_PACKET_LEN       HUB_PACKET_HEADER_LEN+MAX_HUB_PACKET_DATA_LEN
 
 #endif /* Hub_Interface_h */
