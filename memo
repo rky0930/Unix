@@ -1,0 +1,6 @@
+  791  ar -rv libcomm_log.a comm_log.o 
+  811  g++ -o Dummy Dummy.o -L/Users/yoogyoungyoon/Desktop/workspace/C++/mini/Unix/Common/ -lcomm_log
+
+  g++ -o HubClent Hub_Client.cpp Hub_Connecter.cpp  -L/Users/yoogyoungyoon/Desktop/workspace/C++/mini/Unix/Common/ -lcomm_log
+
+    g++ -o HubClent Hub_Client.cpp Hub_Connecter.cpp  -L../Common/ -lcomm_log
